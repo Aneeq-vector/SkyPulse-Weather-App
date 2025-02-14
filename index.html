@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
     
@@ -17,6 +20,12 @@
         <div class="search">
             <input type="text" placeholder="Enter city name" spellcheck="false">
             <button><img src="Elements/search.png"></button>
+        </div>
+        <div class="error">
+            <div class="error-content">
+                <img src="Elements/warning.png" class="error-icon">
+                <p>Invalid City Name</p>
+            </div>
         </div>
         <div class="weather">
             <img src="Elements/rain.png" class="weather-icon">
@@ -52,13 +61,17 @@
     const searchBox = document.querySelector(".search input");
     const searchBtn = document.querySelector(".search button");
     const weatherIcon = document.querySelector(".weather-icon");
-    const weatherBox = document.querySelector(".weather");
 
     async function checkWeather(city) {
         const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
         var data = await response.json();
 
-        document.querySelector(".city").innerHTML = data.name;
+        if(response.status == 404){
+            document.querySelector(".error").style.display = "block";
+            document.querySelector(".weather").style.display = "none";
+        }
+        else{
+            document.querySelector(".city").innerHTML = data.name;
         document.querySelector(".temp").innerHTML = Math.round(data.main.temp)+"°c";
         document.querySelector(".humidity").innerHTML = data.main.humidity+" %";
         document.querySelector(".wind").innerHTML = data.wind.speed+" km/h";
@@ -79,14 +92,19 @@
             weatherIcon.src = "Elements/mist.png"
         }
 
-        weatherBox.classList.add("show");
+        document.querySelector(".weather").style.display = "block"
+        document.querySelector(".error").style.display = "none";
+        }
+
+        
+
 
     }
 
     searchBtn.addEventListener("click", ()=>{
-        weatherBox.classList.remove("show");
-        setTimeout(()=> checkWeather(searchBox.value),100);
+        checkWeather(searchBox.value);
     })
+
     checkWeather(city);
 
 </script>

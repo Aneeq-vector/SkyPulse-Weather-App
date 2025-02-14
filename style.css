@@ -7,6 +7,8 @@
 
 body{
     background: #e2f3f4;
+    background-image: url(/Elements/background.jpg);
+    background-size: cover;
 }
 
 .card{
@@ -114,13 +116,26 @@ body{
 
 .weather{
     display: none;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
-.weather.show {
-    opacity: 1;
-    transform: translateY(0);
-    display: block;
+.error{
+    display: none;
 }
+.error-content{
+    display: flex;
+    justify-content: center;    
+    align-items: center;
+    margin-top: 25px;
+    gap: 8px;
+}
+
+.error p{
+    color: #fefefa;
+    font-family: 'PT Mono', serif;
+    font-weight: 500;
+}
+.error-icon{
+    width: 16px;
+    height: 16px;
+}
+  
